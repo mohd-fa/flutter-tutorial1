@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import './question.dart';
+import './answer.dart';
 
 void main() => runApp(MyApp());
 
@@ -24,24 +25,32 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     var questions = [
-      'What is your name?',
-      'Where are you from?',
-      'Whats your favorite color?'
+      {
+        'questionText': 'Where are you from?',
+        'answer': ['India', 'oman', 'egypt', 'uae']
+      },
+      {
+        'questionText': 'Whats your favorite color?',
+        'answer': ['Red', 'Yellow', 'Orange', 'Blue', 'Black']
+      },
+      {
+        'questionText': 'Whats your favorite meal?',
+        'answer': ['chicken', 'fish', 'beef', 'mutton']
+      }
     ];
     return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('Tutorial 1'),
+        home: Scaffold(
+          appBar: AppBar(
+            title: const Text('Tutorial 1'),
+          ),
+          body: Column(children: [
+            Question((questions[_questionIndex]['questionText'] as String)),
+            ...(questions[_questionIndex]['answer'] as List<String>)
+                .map((answer) {
+              return Answer(_answerQuestion, answer);
+            }).toList()
+          ]),
         ),
-        body: Column(
-          children: [
-            Question(questions[_questionIndex]),
-            ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 1')),
-            ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 2')),
-            ElevatedButton(onPressed: _answerQuestion, child: Text('Answer 3'))
-          ],
-        ),
-      ),
-    );
+        theme: ThemeData(primarySwatch: Colors.amber));
   }
 }
