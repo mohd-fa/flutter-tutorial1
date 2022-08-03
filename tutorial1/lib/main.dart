@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import './question.dart';
-import './answer.dart';
+import './quiz.dart';
+import './result.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,17 +14,16 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-
   void _answerQuestion() {
     setState(() {
-      _questionIndex = _questionIndex + 1;
+      _questionIndex++;
     });
     print('answer chosen');
   }
 
   @override
   Widget build(BuildContext context) {
-    var questions = [
+    var _questions = [
       {
         'questionText': 'Where are you from?',
         'answer': ['India', 'oman', 'egypt', 'uae']
@@ -43,13 +42,9 @@ class _MyAppState extends State<MyApp> {
           appBar: AppBar(
             title: const Text('Tutorial 1'),
           ),
-          body: Column(children: [
-            Question((questions[_questionIndex]['questionText'] as String)),
-            ...(questions[_questionIndex]['answer'] as List<String>)
-                .map((answer) {
-              return Answer(_answerQuestion, answer);
-            }).toList()
-          ]),
+          body: _questionIndex < _questions.length
+              ? Quiz(_questions, _questionIndex, _answerQuestion)
+              : Result(),
         ),
         theme: ThemeData(primarySwatch: Colors.amber));
   }
