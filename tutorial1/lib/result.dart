@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
 class Result extends StatelessWidget {
-  Map<String, String> resultMap;
-
-  Result(this.resultMap, {Key? key}) : super(key: key);
+  final Map<String, String> resultMap;
+  final Function reset;
+  const Result(this.resultMap, this.reset, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +36,11 @@ class Result extends StatelessWidget {
                   ))).toList()
             ],
           ),
+          ElevatedButton.icon(
+            label: const Text('Reset'),
+            onPressed: () => reset(),
+            icon: const Icon(Icons.restart_alt),
+          )
         ],
       ),
     );

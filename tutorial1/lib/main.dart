@@ -27,10 +27,17 @@ class _MyAppState extends State<MyApp> {
     },
     {
       'questionText': 'Whats your favorite meal?',
-      'answer': ['chicken', 'fish', 'beef', 'mutton']
+      'answer': ['Chicken', 'Fish', 'Beef', 'Mutton']
     }
   ];
   Map<String, String> resultMap = {};
+  void _resetBuild() {
+    setState(() {
+      _questionIndex = 0;
+      resultMap = {};
+    });
+  }
+
   void _answerQuestion(String answerText) {
     resultMap[_questions[_questionIndex]['questionText'] as String] =
         answerText;
@@ -49,8 +56,13 @@ class _MyAppState extends State<MyApp> {
           ),
           body: _questionIndex < _questions.length
               ? Quiz(_questions, _questionIndex, _answerQuestion)
-              : Result(resultMap),
+              : Result(resultMap, _resetBuild),
         ),
-        theme: ThemeData(primarySwatch: Colors.amber));
+        theme: ThemeData(
+            primarySwatch: Colors.amber,
+            elevatedButtonTheme: ElevatedButtonThemeData(
+                style: ButtonStyle(
+                    foregroundColor:
+                        MaterialStateProperty.all(Colors.white)))));
   }
 }
