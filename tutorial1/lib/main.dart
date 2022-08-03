@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import './quiz.dart';
 import './result.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   State<StatefulWidget> createState() {
     return _MyAppState();
@@ -14,29 +16,32 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   var _questionIndex = 0;
-  void _answerQuestion() {
+  final _questions = [
+    {
+      'questionText': 'Where are you from?',
+      'answer': ['India', 'oman', 'egypt', 'uae']
+    },
+    {
+      'questionText': 'Whats your favorite color?',
+      'answer': ['Red', 'Yellow', 'Orange', 'Blue', 'Black']
+    },
+    {
+      'questionText': 'Whats your favorite meal?',
+      'answer': ['chicken', 'fish', 'beef', 'mutton']
+    }
+  ];
+  Map<String, String> resultMap = {};
+  void _answerQuestion(String answerText) {
+    resultMap[_questions[_questionIndex]['questionText'] as String] =
+        answerText;
+    // print(resultMap);
     setState(() {
       _questionIndex++;
     });
-    print('answer chosen');
   }
 
   @override
   Widget build(BuildContext context) {
-    var _questions = [
-      {
-        'questionText': 'Where are you from?',
-        'answer': ['India', 'oman', 'egypt', 'uae']
-      },
-      {
-        'questionText': 'Whats your favorite color?',
-        'answer': ['Red', 'Yellow', 'Orange', 'Blue', 'Black']
-      },
-      {
-        'questionText': 'Whats your favorite meal?',
-        'answer': ['chicken', 'fish', 'beef', 'mutton']
-      }
-    ];
     return MaterialApp(
         home: Scaffold(
           appBar: AppBar(
@@ -44,7 +49,7 @@ class _MyAppState extends State<MyApp> {
           ),
           body: _questionIndex < _questions.length
               ? Quiz(_questions, _questionIndex, _answerQuestion)
-              : Result(),
+              : Result(resultMap),
         ),
         theme: ThemeData(primarySwatch: Colors.amber));
   }
